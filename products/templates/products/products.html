@@ -14,11 +14,9 @@
 
                 <h1 class="my-4">ElectroHub</h1>
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Новинки</a>
-                    <a href="#" class="list-group-item">Ноутбуки</a>
-                    <a href="#" class="list-group-item">Приставки</a>
-                    <a href="#" class="list-group-item">Телефони</a>
-                    <a href="#" class="list-group-item">Подарки</a>
+                    {%for category in categories%}
+                        <a href="#" class="list-group-item">{{category.name}}</a>
+                    {%endfor%}
                 </div>
 
             </div>
@@ -54,128 +52,28 @@
                 </div>
 
                 <div class="row">
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#">
-                                <img class="card-img-top"
-                                    src="{% static 'vendor/img/products/Asus Vivobook 17.png'%}"
-                                    alt="">
-                            </a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Ноутбук Asus Vivobook 17 X1704VA-AU456 Quiet Blue</a>
-                                </h4>
-                                <h5>25 999 грн.</h5>
-                                <p class="card-text">Потужний та стильний пристрій для роботи, навчання та розваг. Він оснащений великим 17.3-дюймовим екраном з роздільною здатністю Full HD (1920x1080), що забезпечує яскраве та чітке зображення для зручного перегляду контенту.</p>
-                            </div>
-                            <div class="card-footer text-center">
-                                <button type="button" class="btn btn-outline-success">Отправить в корзину</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#">
-                                <img class="card-img-top"
-                                    src="{%static 'vendor/img/products/Смартфон Apple iPhone 16 Pro Max 256Gb Black Titanium.png'%}" alt="">
-                            </a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Смартфон Apple iPhone 16 Pro Max 256Gb Black Titanium</a>
-                                </h4>
-                                <h5>70 999 грн.</h5>
-                                <p class="card-text">
-                                    Флагманський смартфон від Apple, що поєднує в собі передові технології та елегантний дизайн. Він створений для користувачів, які шукають максимальну продуктивність та інноваційні можливості в стильному корпусі.
-                                </p>
-                            </div>
-                            <div class="card-footer text-center">
-                                <button type="button" class="btn btn-outline-danger">Удалить из корзины</button>
+                    {%for product in products%}
+                        
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a href="#">
+                                    <img class="card-img-top"
+                                        src="/media/{{product.image}}"
+                                        alt="">
+                                </a>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="#">{{product.name}}</a>
+                                    </h4>
+                                    <h5>{{product.price}} грн.</h5>
+                                    <p class="card-text">{{product.short_description}}</p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <button type="button" class="btn btn-outline-success">Отправить в корзину</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#">
-                                <img class="card-img-top"
-                                    src="{%static 'vendor/img/products/Ноутбук ігровий Asus TUF Gaming A15 FA506NC-HN012 Graphite Black.png'%}"
-                                    alt="">
-                            </a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Ноутбук ігровий Asus TUF Gaming A15 FA506NC-HN012 Graphite Black</a>
-                                </h4>
-                                <h5>35 999 грн.</h5>
-                                <p class="card-text">Потужний ігровий ноутбук, створений для геймерів, які шукають високу продуктивність, надійність та сучасний дизайн. Він поєднує в собі передові апаратні компоненти з витривалістю серії TUF, що гарантує стабільну роботу навіть у найінтенсивніших ігрових сесіях.</p>
-                            </div>
-                            <div class="card-footer text-center">
-                                <button type="button" class="btn btn-outline-success">Отправить в корзину</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#">
-                                <img class="card-img-top"
-                                    src="{%static 'vendor/img/products/Ігрова приставка PlayStation 5 Slim.png'%}"
-                                    alt="">
-                            </a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Ігрова приставка PlayStation 5 Slim</a>
-                                </h4>
-                                <h5>23 999 грн.</h5>
-                                <p class="card-text">Компактніша версія легендарної ігрової консолі PlayStation 5, яка поєднує потужні можливості оригінальної моделі з тоншим і легшим дизайном. Вона пропонує ті ж високі характеристики, що й PS5, але в більш зручному для користування корпусі.</p>
-                            </div>
-                            <div class="card-footer text-center">
-                                <button type="button" class="btn btn-outline-success">Отправить в корзину</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#">
-                                <img class="card-img-top"
-                                    src="{%static 'vendor/img/products/Ноутбук ASUS TUF Gaming F17 FX707VV-HX142 (90NR0CH5-M00720) Mecha Gray.png'%}"
-                                    alt="">
-                            </a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Ноутбук ASUS TUF Gaming F17 FX707VV-HX142 (90NR0CH5-M00720) Mecha Gray</a>
-                                </h4>
-                                <h5>33 999 грн</h5>
-                                <p class="card-text">Великий та потужний ігровий ноутбук, розроблений для геймерів, які цінують продуктивність, витривалість та великий дисплей. Модель оснащена сучасними компонентами, що забезпечують високу швидкість роботи та плавність ігрового процесу навіть у найвимогливіших іграх.</p>
-                            </div>
-                            <div class="card-footer text-center">
-                                <button type="button" class="btn btn-outline-success">Отправить в корзину</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="#">
-                                <img class="card-img-top"
-                                    src="{%static 'vendor/img/products/Samsung Galaxy S24 Ultra 12_512GB Titanium Black.png'%}"
-                                    alt="">
-                            </a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Samsung Galaxy S24 Ultra 12/512GB Titanium Black</a>
-                                </h4>
-                                <h5>52 999 грн.</h5>
-                                <p class="card-text">Флагманський смартфон від Samsung, який поєднує передові технології, вишуканий дизайн та потужні можливості для користувачів, які шукають найкраще.</p>
-                            </div>
-                            <div class="card-footer text-center">
-                                <button type="button" class="btn btn-outline-success">Отправить в корзину</button>
-                            </div>
-                        </div>
-                    </div>
-
+                    {%endfor%}
                 </div>
 
                 <nav aria-label="Page navigation example">
@@ -201,7 +99,7 @@
 {%block footer%}
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Store 2021</p>
+            <p class="m-0 text-center text-white">Copyright &copy; Store 2024</p>
         </div>
     </footer>
 {%endblock%}
