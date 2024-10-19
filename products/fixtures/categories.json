@@ -1,0 +1,5 @@
+[
+    {"model": "products.productcategory", "pk": 1, "fields": {"name": "в•ђСЋС”Р„СЃС”СЉС€", "description": "в•¬СЏС€С‘ С„С‹В  СЌСЋС”Р„СЃС”СЉв”‚С‚"}}, 
+    {"model": "products.productcategory", "pk": 2, "fields": {"name": "в•ђСЋС‚С€СЌСЉС€", "description": ""}}, 
+    {"model": "products.productcategory", "pk": 3, "fields": {"name": "в•ҐС…С‹С…Р‡СЋСЌС€", "description": "в•¬СЏС€С‘ С„С‹В  Р„С…С‹С…Р‡СЋСЌв”‚С‚"}}, 
+    {"model": "products.productcategory", "pk": 4, "fields": {"name": "в–“СѓРЃСЋС‚в”‚ СЉСЋСЌС‘СЋС‹в”‚", "description": "в•¬СЏС€С‘ С„С‹В  в”‚СѓРЃСЋС‚С€С— СЉСЋСЌС‘СЋС‹С…С‰"}}]
