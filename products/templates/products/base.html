@@ -27,7 +27,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="{%url 'index'%}">Store</a>
+        <a class="navbar-brand" href="{%url 'index'%}">MyStore</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -41,12 +41,12 @@
                     <a class="nav-link" href="{%url 'users:login'%}">Войти <i class="fas fa-sign-in-alt"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{%url 'users:profile'%}">Дмитрий Р.
+                    <a class="nav-link" href="{%url 'users:profile'%}">{{user.username}}
                         <i class="fas fa-user-circle"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Выйти <i class="fas fa-sign-out-alt"></i></a>
+                    <a class="nav-link" href="{%url 'users:logout'%}">Выйти <i class="fas fa-sign-out-alt"></i></a>
                 </li>
             </ul>
         </div>
