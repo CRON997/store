@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib import auth,messages
 
 from users.forms import UserLoginForm,UserRegistrationForm,UserProfileForm
-
+from products.models import Basket
 def login(request):
     if request.method == 'POST':
         form = UserLoginForm(data = request.POST)
@@ -32,14 +32,21 @@ def register(request):
     return render(request,'users/register.html',context)
 
 def profile(request):
+    user = request.user
     if request.method == 'POST':
-        form = UserProfileForm(data = request.POST,instance=request.user,files = request.FILES)
+        form = UserProfileForm(data = request.POST,instance=user,files = request.FILES)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('users:profile'))
-
-    form = UserProfileForm(instance=request.user)
-    context = {'form':form}
+    else:
+        form = UserProfileForm(instance=user)
+    baskets = Basket.objects.filter(user=user)
+    total_quantity = sum(basket.quantity for basket in baskets)
+    total_sum = sum(basket.sum() for basket in baskets)
+    context = {'form':form,
+               'baskets':baskets,
+               'total_quantity':total_quantity,
+               'total_sum':total_sum}
     return render(request,'users/profile.html',context)
 
 def logout(request):

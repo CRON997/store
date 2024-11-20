@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title>ElectroHub - Авторизация</title>
+    <title> ElectroHub - Authorization</title>
     <link href="{%static 'css/auth.css'%}" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"
             crossorigin="anonymous"></script>
@@ -37,27 +37,27 @@
             </div>
         {% endif %}
         <div class="card shadow-lg border-0 rounded-lg mt-5">
-            <div class="card-header"><h3 class="text-center font-weight-light my-4">Авторизация</h3>
+            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Authorization</h3>
             </div>
             <div class="card-body">
                 <form action="{%url 'users:login'%}" method="post">
                     {% csrf_token%}
                     <div class="form-group">
-                        <label class="small mb-1" for="{{form.username.id_for_label}}">Имя пользователя</label>
+                        <label class="small mb-1" for="{{form.username.id_for_label}}">User Name</label>
                         {{form.username}}
                     </div>
                     <div class="form-group">
-                        <label class="small mb-1" for="{{form.password.id_for_label}}">Пароль</label>
+                        <label class="small mb-1" for="{{form.password.id_for_label}}">Password</label>
                         {{form.password}}
                     </div>
                     <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                        <a class="small" href="#">Забыли пароль?</a>
+                        <a class="small" href="#"> Forgot your password?</a>
                         <input class="btn btn-primary" type="submit" value="Авторизоваться">
                     </div> 
                 </form>
             </div>
             <div class="card-footer text-center">
-                <div class="small"><a href="{%url 'users:register'%}">Нужен аккаунт? Зарегистрируйся!</a></div>
+                <div class="small"><a href="{%url 'users:register'%}"> Need an account? Sign up!</a></div>
             </div>
         </div>
     </div>
