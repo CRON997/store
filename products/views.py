@@ -15,7 +15,7 @@ def products(request,category_id = None,page = 1):
         products = Product.objects.filter(category_id = category_id)
     else:
         products = Product.objects.all()
-    paginator = Paginator(products,3)
+    paginator = Paginator(products,6)
     products_paginator=paginator.page(page)
     context.update({'products':products_paginator})
     return render(request,"products/products.html",context)
@@ -38,7 +38,11 @@ def basket_add(request,product_id):
 @login_required   
 def basket_delete(request,id):
     basket = Basket.objects.get(id = id)
-    basket.delete()
+    if basket.quantity > 1:
+        basket.quantity -= 1 
+        basket.save()
+    else:
+        basket.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     
