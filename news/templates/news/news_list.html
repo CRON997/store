@@ -1,0 +1,16 @@
+{% extends 'products/base.html' %}
+{% load static %}
+
+
+{% block content %}
+  <div class="card">
+    <div class="card-body">
+        {%for item in news%}
+            <h1 class="card-title">{{ item.title }}</h1>
+            <p class="card-text">{{ item.content }}</p>
+            <p class="text-muted">Published: {{ item.created_at }}</p>
+        {%endfor%}
+    </div>
+  </div>
+{% endblock %}
+
