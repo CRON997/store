@@ -3,8 +3,8 @@ from django import forms
 from users.models import User
 
 class UserLoginForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={"placeholder":'Введите имя пользователя'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder":'Введите пароль'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={"placeholder":'Enter your user name'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder":'Enter your password'}))
     class Meta:
         model = User
         fields = ('username','password')
@@ -17,12 +17,12 @@ class UserLoginForm(AuthenticationForm):
 
 
 class UserRegistrationForm(UserCreationForm):
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': "Введите имя"}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': "Введите фамилию"}))
-    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': "Введите имя пользователя"}))
-    email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder': "Введите адрес эл. почты"}))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': "Введите пароль"}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': "Подтвердите пароль"}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': "Enter a name"}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': "Enter last name"}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': "Enter your user name"}))
+    email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder': "Enter your e-mail address"}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': "Enter your password"}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': "Confirm password"}))
 
     class Meta:
         model = User

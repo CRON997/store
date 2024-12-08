@@ -5,11 +5,15 @@
 {% block content %}
   <div class="card">
     <div class="card-body">
+      {%if news%}
         {%for item in news%}
             <h1 class="card-title">{{ item.title }}</h1>
             <p class="card-text">{{ item.content }}</p>
             <p class="text-muted">Published: {{ item.created_at }}</p>
         {%endfor%}
+      {%else%}
+        <h1 class="card-title">No news</h1>
+      {%endif%}
     </div>
   </div>
 {% endblock %}
