@@ -1,25 +1,35 @@
 from django.shortcuts import render,HttpResponseRedirect
 from products.models import Product,ProductCategory,Basket
 from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
+
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
-def index(request):
-    context = {
-        'title':'ElectroHub'
-    }
-    return render(request,"products/index.html",context)
+class IndexView(TemplateView):
+    template_name ="products/index.html"
 
-def products(request,category_id = None,page = 1):
-    context = {'title':'ElectroHub','categories':ProductCategory.objects.all()}
-    if category_id:
-        products = Product.objects.filter(category_id = category_id)
-    else:
-        products = Product.objects.all()
-    paginator = Paginator(products,6)
-    products_paginator=paginator.page(page)
-    context.update({'products':products_paginator})
-    return render(request,"products/products.html",context)
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data()
+        context['title'] = 'ElectroHub'
+        return context
+
+class ProductsListView(ListView):
+    model = Product
+    template_name = 'products/products.html'
+    paginate_by = 6
+
+    def get_queryset(self):
+        queryset = super(ProductsListView,self).get_queryset()
+        category_id = self.kwargs.get('category_id')
+        return queryset.filter(category_id= category_id) if category_id else queryset
+        
+
+    def get_context_data(self,object_list=None,**kwargs):
+        context = super(ProductsListView,self).get_context_data()
+        context['title'] = 'ElectroHub'
+        context['categories'] = ProductCategory.objects.all()
+        return context
 
 @login_required
 def basket_add(request,product_id):
