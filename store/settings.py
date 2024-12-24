@@ -27,6 +27,7 @@ SECRET_KEY = 'django-insecure-&glb(3whjl!l7ypjz@a_9%qas^+)j7c@yxjn_8-(w3ee8%+*ln
 DEBUG = True
 
 ALLOWED_HOSTS = []
+DOMAIN_NAME = 'http://localhost:8000'
 
 
 # Application definition
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'Europe/Kyiv'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -133,3 +134,4 @@ AUTH_USER_MODEL = 'users.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/users/login/'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

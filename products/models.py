@@ -26,7 +26,7 @@ class Basket(models.Model):
     quantity = models.PositiveIntegerField(default=0)
     created_timestap = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return f"Корзина для {self.user.username} | Продукт {self.product.name}" 
+        return f"Basket for {self.user.username} | Product {self.product.name}" 
     
     def sum(self):
         res = self.quantity * self.product.price
