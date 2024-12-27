@@ -41,6 +41,7 @@ class UserRegistrationView(TitleMixin, SuccessMessageMixin,CreateView):
         return context
 
 def profile(request):
+    
     user = request.user
     if request.method == 'POST':
         form = UserProfileForm(data = request.POST,instance=user,files = request.FILES)
@@ -52,7 +53,8 @@ def profile(request):
     baskets = Basket.objects.filter(user=user)
     total_quantity = sum(basket.quantity for basket in baskets)
     total_sum = sum(basket.sum() for basket in baskets)
-    context = {'form':form,
+    context = {'title':'ElectroHub - Profile',
+                'form':form,
                'baskets':baskets,
                'total_quantity':total_quantity,
                'total_sum':total_sum}
@@ -72,7 +74,7 @@ class EmailVerificationView(TitleMixin,TemplateView):
         user = User.objects.get(email = kwargs['email'])
         email_verifications = EmailVerification.objects.filter(user = user, code = code)
 
-        if email_verifications.exists():
+        if email_verifications.exists() and not email_verifications.first().is_expired():
             user.is_verified_email  = True
             user.save()
             return  super(EmailVerificationView,self).get(request,*args,**kwargs)
