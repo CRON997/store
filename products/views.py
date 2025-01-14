@@ -60,5 +60,9 @@ def basket_delete(request,id):
         basket.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+def description_product(request, id):
+    context = {'product': Product.objects.get(id = id)}
+    return render(request,'products/description_product.html',context)
+
     
 

@@ -1,0 +1,47 @@
+{% extends "products/base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Изображение товара -->
+        <div class="col-md-6">
+            <img src="/media/{{ product.image }}" alt="{{ product.name }}" class="img-fluid rounded">
+        </div>
+
+        <!-- Описание товара -->
+        <div class="col-md-6">
+            <h1>{{ product.name }}</h1>
+            <p class="text-muted">{{ product.category }}</p>
+            <h3>${{ product.price }}</h3>
+            <p>{{ product.description }}</p>
+            
+            <a href="{%url 'products:basket_add' product.id %}">
+                <button type="button" class="btn btn-outline-success">
+                    Add in the basket
+            </button></a>
+        </div>
+    </div>
+
+    <!-- Характеристики товара -->
+    <div class="mt-5">
+        <h3>Characteristics</h3>
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Производитель</th>
+                    <td>{{ product.manufacturer }}</td>
+                </tr>
+                <tr>
+                    <th>Модель</th>
+                    <td>{{ product.model }}</td>
+                </tr>
+                <tr>
+                    <th>Гарантия</th>
+                    <td>{{ product.warranty }} лет</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock  %}
