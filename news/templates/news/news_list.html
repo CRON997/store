@@ -1,20 +1,29 @@
 {% extends 'products/base.html' %}
 {% load static %}
 
-
 {% block content %}
-  <div class="card">
-    <div class="card-body">
-      {%if news%}
-        {%for item in news%}
-            <h1 class="card-title">{{ item.title }}</h1>
-            <p class="card-text">{{ item.content }}</p>
-            <p class="text-muted">Published: {{ item.created_at }}</p>
-        {%endfor%}
-      {%else%}
-        <h1 class="card-title">No news</h1>
-      {%endif%}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-12">
+        {% if news %}
+          {% for item in news %}
+            <div class="card mb-4 shadow-sm">
+              <div class="card-header bg-primary text-white">
+                <h2 class="card-title">{{ item.title }}</h2>
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{ item.content }}</p>
+                <p class="text-muted">Published: {{ item.created_at }}</p>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">No news</h4>
+            <p>There are currently no news articles available. Please check back later.</p>
+          </div>
+        {% endif %}
+      </div>
     </div>
   </div>
 {% endblock %}
-

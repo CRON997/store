@@ -24,7 +24,7 @@ def login(request):
                 return HttpResponseRedirect(reverse('index'))
     else:
         form = UserLoginForm()
-    context = {'form':form}
+    context = {'title': 'ElectroHub - Authorization' ,'form':form}
     return render(request,'users/login.html',context)
 
 class UserRegistrationView(TitleMixin, SuccessMessageMixin,CreateView):
@@ -41,7 +41,6 @@ class UserRegistrationView(TitleMixin, SuccessMessageMixin,CreateView):
         return context
 
 def profile(request):
-    
     user = request.user
     if request.method == 'POST':
         form = UserProfileForm(data = request.POST,instance=user,files = request.FILES)
