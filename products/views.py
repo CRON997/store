@@ -4,7 +4,6 @@ from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from common.views import TitleMixin
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 
 class IndexView(TitleMixin,TemplateView):
     template_name ="products/index.html"
@@ -46,8 +45,9 @@ def basket_add(request,product_id):
         return HttpResponseRedirect(current_page)
     else:
         basket = baskets.first()
-        basket.quantity +=1
-        basket.save()
+        if basket.quantity < product.quantity:
+            basket.quantity +=1
+            basket.save()
         return HttpResponseRedirect(current_page)
  
 @login_required   
