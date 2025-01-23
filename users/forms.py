@@ -1,23 +1,26 @@
 import uuid
 from datetime import timedelta
 
-from django.utils.timezone import now 
-from django.contrib.auth.forms import AuthenticationForm,UserCreationForm,UserChangeForm
 from django import forms
-from users.models import User, EmailVerification
+from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
+                                       UserCreationForm)
+from django.utils.timezone import now
+
+from users.models import EmailVerification, User
+
 
 class UserLoginForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={"placeholder":'Enter your user name'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder":'Enter your password'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={"placeholder": 'Enter your user name'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder": 'Enter your password'}))
+
     class Meta:
         model = User
-        fields = ('username','password')
+        fields = ('username', 'password')
 
-    def __init__(self,*args, **kwargs):
-        super(UserLoginForm,self).__init__(*args, **kwargs)
-        for field_name,field in self.fields.items():
+    def __init__(self, *args, **kwargs):
+        super(UserLoginForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
             field.widget.attrs['class'] = "form-control py-4"
-
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -32,28 +35,30 @@ class UserRegistrationForm(UserCreationForm):
         model = User
         fields = ("first_name", 'last_name', 'username', 'email', 'password1', 'password2')
 
-    def save(self, commit = True):
-        user = super(UserRegistrationForm, self).save(commit = True)
+    def save(self, commit=True):
+        user = super(UserRegistrationForm, self).save(commit=True)
         expiration = now() + timedelta(hours=48)
-        recored = EmailVerification.objects.create(code = uuid.uuid4(),user = user, expiration = expiration)
+        recored = EmailVerification.objects.create(code=uuid.uuid4(), user=user, expiration=expiration)
         recored.send_verification_email()
         return user
 
     def __init__(self, *args, **kwargs):
-        super(UserRegistrationForm, self).__init__(*args, **kwargs) 
+        super(UserRegistrationForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = "form-control py-4"   
+            field.widget.attrs['class'] = "form-control py-4"
+
 
 class UserProfileForm(UserChangeForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'readonly':True}))
-    email = forms.CharField(widget=forms.EmailInput(attrs={'readonly':True}))
-    image = forms.ImageField(widget=forms.FileInput(),required=False)
+    username = forms.CharField(widget=forms.TextInput(attrs={'readonly': True}))
+    email = forms.CharField(widget=forms.EmailInput(attrs={'readonly': True}))
+    image = forms.ImageField(widget=forms.FileInput(), required=False)
+
     class Meta:
         model = User
-        fields = ('username','email',"first_name", 'last_name','image')
+        fields = ('username', 'email', "first_name", 'last_name', 'image')
 
     def __init__(self, *args, **kwargs):
-        super(UserProfileForm, self).__init__(*args, **kwargs) 
+        super(UserProfileForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = "form-control py-4" 
-        self.fields['image'].widget.attrs['class']='custom-file-input'
+            field.widget.attrs['class'] = "form-control py-4"
+        self.fields['image'].widget.attrs['class'] = 'custom-file-input'
