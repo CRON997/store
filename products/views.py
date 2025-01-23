@@ -5,6 +5,7 @@ from django.views.generic.list import ListView
 from common.views import TitleMixin
 from django.contrib.auth.decorators import login_required
 
+
 class IndexView(TitleMixin,TemplateView):
     template_name ="products/index.html"
     title = 'ElectroHub'

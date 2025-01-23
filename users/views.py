@@ -33,7 +33,7 @@ class UserRegistrationView(TitleMixin, SuccessMessageMixin,CreateView):
     title = 'ElectroHub - Registration'
     template_name = 'users/register.html'
     success_url = reverse_lazy('users:login')
-    success_message = 'You have successfully checked in !'
+    success_message = 'You have successfully checked in!'
 
 
     def get_context_data(self, **kwargs):
