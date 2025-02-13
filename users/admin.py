@@ -12,5 +12,5 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(EmailVerification)
 class EmailVerificationAdmin(admin.ModelAdmin):
     list_display = ('code', 'user', 'expiration')
-    fields = ('code', 'user', 'expiration', 'created')
+    fields = ('code', 'user', 'expiration', 'created',)
     readonly_fields = ('created',)

@@ -3,6 +3,18 @@
 {% block content %}
 
 <div class="container mt-5">
+    {%for msg in messages%}
+                <div id="alert-container" style="position: fixed; top: 2px; right: 10px; z-index: 1050; width: 300px;">
+                    {% for msg in messages %}
+                        <div class="alert {% if msg.tags == 'success' %}alert-success{% elif msg.tags == 'error' %}alert-warning{% endif %} alert-dismissible fade show" role="alert">
+                            {{ msg }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.style.display='none';">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+    {%endfor%}
     <div class="row">
         <!-- Изображение товара -->
         <div class="col-md-6">
@@ -28,20 +40,14 @@
         <h3>Characteristics</h3>
         <table class="table table-striped">
             <tbody>
+                {% for key, value in product.characteristics.items %}
                 <tr>
-                    <th>Производитель</th>
-                    <td>{{ product.manufacturer }}</td>
+                    <th>{{ key }}</th>
+                    <td>{{ value }}</td>
                 </tr>
-                <tr>
-                    <th>Модель</th>
-                    <td>{{ product.model }}</td>
-                </tr>
-                <tr>
-                    <th>Гарантия</th>
-                    <td>{{ product.warranty }} лет</td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
-    </div>
+    </div>    
 </div>
 {% endblock  %}

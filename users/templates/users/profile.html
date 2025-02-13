@@ -57,7 +57,6 @@
                 </div>
                 {%for msg in messages%}
                 <div class="alert {%if msg.tags == 'success' %}alert-success{%elif msg.tags == 'error'%}alert-warning {%endif%} alert-dismissible fade show" role="alert" style="margin-top: 20px;">
-                    <strong>Well done!</strong> 
                     {{msg}}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.style.display='none';">
                         <span aria-hidden="true">&times;</span>
