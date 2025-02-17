@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    
     <title>{{title|title}}</title>
 
     <!-- Bootstrap core CSS -->
@@ -33,12 +33,19 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{%url 'products:index'%}">Catalog <i class="fas fa-tv"></i> </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " href="{%url 'news:news_list'%}">News <i class="fas fa-list"></i> </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="basket.html">Cart <i class="fa fa-shopping-cart"></i> </a>
                 </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
