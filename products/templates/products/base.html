@@ -33,10 +33,13 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            <form class="d-flex" role="search" method="get" action="{% url 'products:search'%}">
+                {% csrf_token %}
+                <input class="form-control me-2" type="search" name="q" placeholder="Search..." aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">
+                    <i class="fas fa-search"></i> <!-- Иконка лупы -->
+                </button>
+            </form>            
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{%url 'products:index'%}">Catalog <i class="fas fa-tv"></i> </a>
@@ -44,9 +47,7 @@
                 <li class="nav-item">
                     <a class="nav-link " href="{%url 'news:news_list'%}">News <i class="fas fa-list"></i> </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="basket.html">Cart <i class="fa fa-shopping-cart"></i> </a>
-                </li>
+                
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'users:profile' %}">{{ user.username }}

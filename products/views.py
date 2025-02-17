@@ -70,3 +70,17 @@ def basket_delete(request, id):
 def description_product(request, id):
     context = {'product': Product.objects.get(id=id)}
     return render(request, 'products/description_product.html', context)
+
+class SearchView(TitleMixin, ListView):
+    model = Product
+    template_name = 'products/products.html'
+    paginate_by = 6
+    
+    def get_queryset(self):
+       return Product.objects.filter(name__icontains=self.request.GET.get('q'))
+   
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['q']=self.request.GET.get('q')  
+        return context
+   
