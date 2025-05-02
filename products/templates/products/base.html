@@ -28,9 +28,32 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" href="{%url 'index'%}">ElectroHub</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <button class="btn btn-outline-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i> Menu
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'products:index'%}">Catalog <i class="fas fa-tv"></i> </a>
+                </li>``
+                <li class="nav-item">
+                    <a class="nav-link " href="{%url 'news:news_list'%}">News <i class="fas fa-list"></i> </a>
+                </li>
+                
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:profile' %}">{{ user.username }}
+                            <i class="fas fa-user-circle"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:logout' %}">Exit <i class="fas fa-sign-out-alt"></i></a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:login' %}">Sign in <i class="fas fa-sign-in-alt"></i></a>
+                    </li>
+                {% endif %}
+            </ul>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <form class="d-flex" role="search" method="get" action="{% url 'products:search'%}">
