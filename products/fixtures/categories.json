@@ -1,5 +1,1 @@
-[
-    {"model": "products.productcategory", "pk": 1, "fields": {"name": "в•ђСЋС”Р„СЃС”СЉС€", "description": "в•¬СЏС€С‘ С„С‹В  СЌСЋС”Р„СЃС”СЉв”‚С‚"}}, 
-    {"model": "products.productcategory", "pk": 2, "fields": {"name": "в•ђСЋС‚С€СЌСЉС€", "description": ""}}, 
-    {"model": "products.productcategory", "pk": 3, "fields": {"name": "в•ҐС…С‹С…Р‡СЋСЌС€", "description": "в•¬СЏС€С‘ С„С‹В  Р„С…С‹С…Р‡СЋСЌв”‚С‚"}}, 
-    {"model": "products.productcategory", "pk": 4, "fields": {"name": "в–“СѓРЃСЋС‚в”‚ СЉСЋСЌС‘СЋС‹в”‚", "description": "в•¬СЏС€С‘ С„С‹В  в”‚СѓРЃСЋС‚С€С— СЉСЋСЌС‘СЋС‹С…С‰"}}]
+[{"model": "products.productcategory", "pk": 1, "fields": {"name": "Laptops", "description": "Опис для ноутбуків"}}, {"model": "products.productcategory", "pk": 2, "fields": {"name": "Monitors", "description": ""}}, {"model": "products.productcategory", "pk": 3, "fields": {"name": "Phones", "description": "Опис для телефонів"}}, {"model": "products.productcategory", "pk": 4, "fields": {"name": "Game consoles", "description": "Опис для ігрових консолей"}}, {"model": "products.productcategory", "pk": 5, "fields": {"name": "TVs", "description": ""}}, {"model": "products.productcategory", "pk": 6, "fields": {"name": "Computers", "description": ""}}, {"model": "products.productcategory", "pk": 7, "fields": {"name": "Keyboards", "description": ""}}]
