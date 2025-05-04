@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from django import forms
 from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
-                                       UserCreationForm)
+                                       UserCreationForm, PasswordResetForm, SetPasswordForm)
 from django.utils.timezone import now
 
 from users.models import EmailVerification, User
@@ -62,3 +62,19 @@ class UserProfileForm(UserChangeForm):
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = "form-control py-4"
         self.fields['image'].widget.attrs['class'] = 'custom-file-input'
+
+class MyPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'form-control py-4',
+        'placeholder': 'Enter your e-mail address'
+    }))
+
+class MyPasswordResetConfirmForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label="New password",
+        widget=forms.PasswordInput(attrs={'placeholder': "Enter your password", 'class': 'form-control py-4'})
+    )
+    new_password2 = forms.CharField(
+        label="Confirm new password",
+        widget=forms.PasswordInput(attrs={'placeholder': "Confirm password", 'class': 'form-control py-4'})
+    )

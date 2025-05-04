@@ -1,4 +1,6 @@
 from django.contrib import auth
+from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import HttpResponseRedirect, render
 from django.urls import reverse, reverse_lazy
@@ -7,7 +9,7 @@ from django.views.generic.edit import CreateView
 
 from common.views import TitleMixin
 from products.models import Basket
-from users.forms import UserLoginForm, UserProfileForm, UserRegistrationForm
+from users.forms import UserLoginForm, UserProfileForm, UserRegistrationForm, MyPasswordResetForm, MyPasswordResetConfirmForm
 from users.models import EmailVerification, User
 
 
@@ -80,3 +82,13 @@ class EmailVerificationView(TitleMixin, TemplateView):
             return super(EmailVerificationView, self).get(request, *args, **kwargs)
         else:
             return HttpResponseRedirect(reverse('index'))
+
+
+class MyPasswordResetView(PasswordResetView):
+    template_name = 'registration/password_reset_form.html'  # твой шаблон
+    form_class = MyPasswordResetForm  # если кастомная форма с красивыми полями
+
+class MyPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'registration/password_reset_confirm.html'  # твой шаблон
+    form_class = MyPasswordResetConfirmForm  # если кастомная форма с красивыми полями
+
