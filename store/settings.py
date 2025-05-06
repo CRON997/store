@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-&glb(3whjl!l7ypjz@a_9%qas^+)j7c@yxjn_8-(w3ee8%+*ln
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['electrohub-herb.onrender.com','localhost','127.0.0.1']
 DOMAIN_NAME = 'http://localhost:8000'
 
 
