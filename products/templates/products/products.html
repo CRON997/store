@@ -1,5 +1,5 @@
 {%extends 'products/base.html'%}
-{% load static %}
+{% load static cache%}
 
 {%block css%}
     <link href="{%static 'css/products.css'%}" rel="stylesheet">
@@ -66,31 +66,32 @@
                 </div>
 
                 <div class="row">
-                    {%for product in object_list%}
-                        
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <a href="{%url 'products:description_product' product.id%}">
-                                    <img class="card-img-top"
-                                        src="/media/{{product.image}}"
-                                        alt="">
-                                </a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="{%url 'products:description_product' product.id%}">{{product.name|slice:":20"}}...</a>
-                                    </h4>
-                                    <h5 ><b>{{ product.price}} ₴</b></h5>
-                                    <p class="card-text">{{product.short_description}}</p>
-                                </div>
-                                <div class="card-footer text-center">
-                                    <a href="{%url 'products:basket_add' product.id %}">
-                                        <button type="button" class="btn btn-outline-success">
-                                            Add in the basket
-                                        </button></a>
+                    {%cache 30 object_list%}
+                        {%for product in object_list%}
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="card h-100">
+                                    <a href="{%url 'products:description_product' product.id%}">
+                                        <img class="card-img-top"
+                                            src="/media/{{product.image}}"
+                                            alt="">
+                                    </a>
+                                    <div class="card-body">
+                                        <h4 class="card-title">
+                                            <a href="{%url 'products:description_product' product.id%}">{{product.name|slice:":20"}}...</a>
+                                        </h4>
+                                        <h5 ><b>{{ product.price}} ₴</b></h5>
+                                        <p class="card-text">{{product.short_description}}</p>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <a href="{%url 'products:basket_add' product.id %}">
+                                            <button type="button" class="btn btn-outline-success">
+                                                Add in the basket
+                                            </button></a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    {%endfor%}
+                        {%endfor%}
+                    {%endcache%}
                 </div>
                 {%if is_paginated%}
                     <nav aria-label="Page navigation example">

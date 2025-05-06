@@ -3,7 +3,7 @@ from django.shortcuts import HttpResponseRedirect, render
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.contrib import messages
-
+from django.core.cache import cache
 from common.views import TitleMixin
 from products.models import Basket, Product, ProductCategory
 
