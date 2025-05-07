@@ -95,19 +95,11 @@ CACHES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-<<<<<<< HEAD
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD':os.getenv('DB_PASSWORD'),
         'PORT':os.getenv('DB_PORT'),
         'HOST':os.getenv("DB_HOST"),
-=======
-        'NAME': 'mydatabase',
-        'USER':'root',
-        'PASSWORD':'1234',
-        'PORT':3306,
-        'HOST':'electrohub-herb.onrender.com',
->>>>>>> 7dc05a7e2e4698f9434da6a7cde6974ff6546741
     }
 }
 
