@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    
+
     <title>{{title|title}}</title>
 
     <!-- Bootstrap core CSS -->
@@ -40,7 +40,7 @@
                 <li class="nav-item">
                     <a class="nav-link " href="{%url 'news:news_list'%}">News <i class="fas fa-list"></i> </a>
                 </li>
-                
+
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'users:profile' %}">{{ user.username }}
@@ -64,7 +64,7 @@
                 <button class="btn btn-outline-success" type="submit">
                     <i class="fas fa-search"></i> <!-- Иконка лупы -->
                 </button>
-            </form>            
+            </form>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{%url 'products:index'%}">Catalog <i class="fas fa-tv"></i> </a>
@@ -72,7 +72,7 @@
                 <li class="nav-item">
                     <a class="nav-link " href="{%url 'news:news_list'%}">News <i class="fas fa-list"></i> </a>
                 </li>
-                
+
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'users:profile' %}">{{ user.username }}
@@ -97,7 +97,7 @@
 {%endblock%}
 {%block footer%}
 {%endblock%}
-  
+
 
 <!-- Bootstrap core JavaScript -->
 <script src="{% static 'vendor/jquery/jquery.min.js' % }"></script>
