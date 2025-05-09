@@ -1,5 +1,5 @@
 {%extends 'products/base.html'%}
-{% load static cache%}
+<!--{% load static cache%}-->
 
 {%block css%}
     <link href="{%static 'css/products.css'%}" rel="stylesheet">
@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="row">
-                    {%cache 30 object_list%}
+<!--                    {%cache 30 object_list%}-->
                         {%for product in object_list%}
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="card h-100">
@@ -91,8 +91,8 @@
                                 </div>
                             </div>
                         {%endfor%}
-                    {%endcache%}
                 </div>
+<!--                    {%endcache%}-->
                 {%if is_paginated%}
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-center">
@@ -130,4 +130,4 @@
             <p class="m-0 text-center text-white">Copyright &copy; Store 2025</p>
         </div>
     </footer>
-{%endblock%}
+{%endblock%}3
