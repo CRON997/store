@@ -74,7 +74,7 @@ def description_product(request, id):
 class SearchView(TitleMixin, ListView):
     model = Product
     template_name = 'products/products.html'
-    paginate_by = 3
+    paginate_by = 6
     
     def get_queryset(self):
        return Product.objects.filter(name__icontains=self.request.GET.get('q'))
