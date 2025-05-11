@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.views.generic.edit import CreateView
+from django.views.generic.base import TemplateView
 
-def orders(request):
-    return render(request,'orders/order-create.html')
+class OrderCreateView(TemplateView):
+    template_name = 'orders/order-create.html'
