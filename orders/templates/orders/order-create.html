@@ -13,34 +13,20 @@
             <div class="col-md-5 col-lg-4 order-md-last">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-primary">Basket</span>
-                    <span class="badge badge-primary badge-pill text-white">3</span>
+                    <span class="badge badge-primary badge-pill text-white">{{total_quantity}}</span>
                 </h4>
                 <ul class="list-group mb-3">
                     {%for basket in baskets %}
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
                                 <h6 class="my-0">{{basket.product.name}}</h6>
-                                <small class="text-muted">{{basket.quantity}}.</small>
+                                <small class="text-muted">{{basket.quantity}} quan.</small>
                             </div>
                             <span class="text-muted">{{basket.sum}} UAH.</span>
                         </li>
                     {% endfor %}
-<!--                    <li class="list-group-item d-flex justify-content-between lh-sm">-->
-<!--                        <div>-->
-<!--                            <h6 class="my-0">Second product</h6>-->
-<!--                            <small class="text-muted">1 шт.</small>-->
-<!--                        </div>-->
-<!--                        <span class="text-muted">3 200 UAH.</span>-->
-<!--                    </li>-->
-<!--                    <li class="list-group-item d-flex justify-content-between lh-sm">-->
-<!--                        <div>-->
-<!--                            <h6 class="my-0">Third item</h6>-->
-<!--                            <small class="text-muted">3 шт.</small>-->
-<!--                        </div>-->
-<!--                        <span class="text-muted">12 894 UAH.</span>-->
-<!--                    </li>-->
                     <li class="list-group-item d-flex justify-content-between">
-                        <span>Amount due</span>
+                        <span>Total</span>
                         <strong>{{total_sum}} UAH.</strong>
                     </li>
                 </ul>

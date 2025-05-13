@@ -13,3 +13,4 @@ class OrderCreateView(TitleMixin,CreateView):
     def form_valid(self, form):
         form.instance.initiator =self.request.user
         return super(OrderCreateView,self).form_valid(form)
+
