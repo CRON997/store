@@ -9,7 +9,7 @@ Electro Hub is a modern e-commerce website designed for purchasing electronic de
 - 📐 Responsive design for all devices.
 
 ## 🛠️ Technologies Used
-- 🎨 Frontend: HTML, CSS, JavaScript
+- 🎨 Frontend: HTML, CSS, Bootstrap
 - 🖥️ Backend: Django
 - 🗄️ Database: MySQL
 
