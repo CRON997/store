@@ -1,8 +1,9 @@
+from django.template.context_processors import request
 from django.views.generic.edit import CreateView
 from orders.forms import OrderForm
 from django.urls import reverse_lazy
 from common.views import TitleMixin
-from products.views import basket_add
+from products.models import Basket
 
 class OrderCreateView(TitleMixin,CreateView):
     template_name = 'orders/order-create.html'
@@ -13,4 +14,5 @@ class OrderCreateView(TitleMixin,CreateView):
     def form_valid(self, form):
         form.instance.initiator =self.request.user
         return super(OrderCreateView,self).form_valid(form)
+
 
