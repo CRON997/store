@@ -4,6 +4,7 @@ from orders.forms import OrderForm
 from django.urls import reverse_lazy
 from common.views import TitleMixin
 from products.models import Basket
+from users.models import User
 
 class OrderCreateView(TitleMixin,CreateView):
     template_name = 'orders/order-create.html'
@@ -15,4 +16,9 @@ class OrderCreateView(TitleMixin,CreateView):
         form.instance.initiator =self.request.user
         return super(OrderCreateView,self).form_valid(form)
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        baskets = Basket.objects.filter(user = self.request.user)
+        context['total_quantity'] = sum(b.quantity for b in baskets)
+        context['total_sum'] = sum(b.sum() for b in baskets)
+        return context
