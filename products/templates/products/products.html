@@ -1,5 +1,5 @@
 {%extends 'products/base.html'%}
-<!--{% load static cache%}-->
+{% load static%}
 
 {%block css%}
     <link href="{%static 'css/products.css'%}" rel="stylesheet">
@@ -14,44 +14,13 @@
             <div class="col-lg-3">
 
                 <h1 class="my-4">ElectroHub</h1>
-
-                <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Product Filter</h5>
+                <div class="list-group">
+                    {%for category in categories%}
+                        <a href="{%url 'products:category' category.id%}"
+                        class="list-group-item">{{category.name}}</a>
+                    {%endfor%}
                 </div>
-                <div class="card-body">
-        <!-- Поиск по категориям -->
-        <!-- Фильтр по цене -->
-                            <div class="mb-4">
-                                <h6 class="fw-bold mb-3">Price</h6>
-                                <div class="row g-2 mb-2">
-                                    <div class="col">
-                                        <input type="number" class="form-control" placeholder="От" id="minPrice">
-                                    </div>
-                                    <div class="col">
-                                        <input type="number" class="form-control" placeholder="До" id="maxPrice">
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <input type="range" class="form-range flex-grow-1 me-3" id="priceRange" min="0" max="10000" step="100">
-                                    <span id="priceRangeValue">0 - 1000</span>
-                                </div>
-                            </div>
 
-                            {%for category in categories%}
-                                <div class="list-group mb-1">
-                                    <a href="{%url 'products:category' category.id%}" class="list-group-item list-group-item-action">{{category.name}}</a>
-                                </div>
-                            {%endfor%}
-                            <!-- Список категорий -->
-
-                            <!-- Кнопки -->
-                            <div class="d-flex">
-                                <button class="btn btn-primary me-2 flex-grow-1" id="applyFilters">Apply filter</button>
-                                <button class="btn btn-secondary flex-grow-1" id="resetFilters">Сбросить</button>
-                            </div>
-                </div>
-                </div>
             </div>
             <!-- /.col-lg-3 -->
 
@@ -126,8 +95,8 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-center">
                             <li class="page-item {% if not page_obj.has_previous %} disabled {%endif%}">
-                                <a class="page-link" 
-                                href="{% if  page_obj.has_previous %} {% url 'products:page' page_obj.previous_page_number%} {%else%} # {%endif%}" 
+                                <a class="page-link"
+                                href="{% if  page_obj.has_previous %} {% url 'products:page' page_obj.previous_page_number%} {%else%} # {%endif%}"
                                 tabindex="-1" aria-disabled="true">Prev</a>
                             </li>
 
@@ -138,9 +107,9 @@
                                     </a>
                                 </li>
                             {% endfor %}
-                            
+
                             <li class="page-item {% if not page_obj.has_next %} disabled {%endif%}">
-                                <a class="page-link" 
+                                <a class="page-link"
                                 href="{% if  page_obj.has_next %} {% url 'products:page' page_obj.next_page_number%} {%else%} # {%endif%}">Next</a>
                             </li>
                         </ul>
@@ -159,4 +128,4 @@
             <p class="m-0 text-center text-white">Copyright &copy; Store 2025</p>
         </div>
     </footer>
-{%endblock%}3
+{%endblock%}

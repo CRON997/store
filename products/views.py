@@ -3,7 +3,6 @@ from django.shortcuts import HttpResponseRedirect, render
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.contrib import messages
-from django.core.cache import cache
 from common.views import TitleMixin
 from products.models import Basket, Product, ProductCategory
 
@@ -21,7 +20,7 @@ class IndexView(TitleMixin, TemplateView):
 class ProductsListView(TitleMixin, ListView):
     model = Product
     template_name = 'products/products.html'
-    paginate_by = 12
+    paginate_by = 6
     title = 'ElectroHub - Catalog'
 
     def get_queryset(self):

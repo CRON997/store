@@ -9,7 +9,7 @@ admin.site.register(Basket)
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'quantity', 'category')
-    fields = ('name', 'image', 'description', 'short_description', ('price', 'quantity'), 'category','characteristics')
+    fields = ('name', 'image', 'description', 'short_description', ('price', 'quantity'), 'category','characteristics','stripe_product_price_id',)
     # readonly_fields = ('name',)
     ordering = ('name',)
 
