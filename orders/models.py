@@ -27,6 +27,5 @@ class Order(models.Model):
         self.status = self.PAID
         self.basket_history = {'purchased_items':[basket.de_json() for basket in baskets],'total_sum': float(sum(b.sum() for b in baskets))}
         baskets.delete()
-        print(self.basket_history)
         self.save()
 

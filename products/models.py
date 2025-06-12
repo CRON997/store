@@ -65,5 +65,4 @@ class Basket(models.Model):
             'price':float(self.product.price),
             'sum':float(self.sum())
         }
-        print(basket_item)
         return basket_item
