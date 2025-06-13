@@ -4,40 +4,314 @@
 {%block css%}
     <link href="{%static 'css/products.css'%}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .filter-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .filter-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+
+        .price-range-container {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .price-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .price-inputs input {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .filter-checkbox {
+            margin-bottom: 8px;
+        }
+
+        .filter-checkbox input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .filter-checkbox label {
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .filter-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-filter {
+            flex: 1;
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+
+        .active-filters {
+            margin-bottom: 20px;
+        }
+
+        .filter-tag {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin: 2px;
+            cursor: pointer;
+        }
+
+        .filter-tag:hover {
+            background: #0056b3;
+        }
+
+        .sort-controls {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .results-info {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .filter-section {
+                margin-bottom: 15px;
+                padding: 15px;
+            }
+
+            .price-inputs {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .price-inputs input {
+                width: 100%;
+            }
+        }
+    </style>
 {%endblock%}
 
 {%block content%}
     <div class="container">
-
         <div class="row">
-
+            <!-- Левая панель с фильтрами -->
             <div class="col-lg-3">
-
                 <h1 class="my-4">ElectroHub</h1>
-                <div class="list-group">
-                    {%for category in categories%}
-                        <a href="{%url 'products:category' category.id%}"
-                        class="list-group-item">{{category.name}}</a>
-                    {%endfor%}
-                </div>
 
+                <!-- Форма фильтров -->
+                <form method="GET" id="filterForm">
+                    <!-- Categories -->
+                    <div class="filter-section">
+                        <div class="filter-title">
+                            <i class="fas fa-tags"></i> Categories
+                        </div>
+                        <div class="list-group">
+                            <a href="{% url 'products:products' %}"
+                               class="list-group-item {% if not request.GET.category %}active{% endif %}">
+                                All Categories
+                            </a>
+                            {% for category in categories %}
+                                <a href="?category={{ category.id }}"
+                                   class="list-group-item {% if request.GET.category == category.id|stringformat:'s' %}active{% endif %}">
+                                    {{ category.name }}
+                                    <span class="badge bg-secondary float-end">{{ category.products.count }}</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Price Filter -->
+                    <div class="filter-section">
+                        <div class="filter-title">
+                            <i class="fas fa-money-bill-wave"></i> Price
+                        </div>
+                        <div class="price-range-container">
+                            <div class="price-inputs">
+                                <input type="number" name="price_min" placeholder="From"
+                                       value="{{ request.GET.price_min }}" min="0">
+                                <span>—</span>
+                                <input type="number" name="price_max" placeholder="To"
+                                       value="{{ request.GET.price_max }}" min="0">
+                                <span>₴</span>
+                            </div>
+                        </div>
+
+                        <!-- Preset price ranges -->
+                        <div class="mt-3">
+                            <div class="filter-checkbox">
+                                <input type="radio" name="price_range" value="0-1000" id="price1">
+                                <label for="price1">Up to 1,000 ₴</label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="radio" name="price_range" value="1000-5000" id="price2">
+                                <label for="price2">1,000 - 5,000 ₴</label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="radio" name="price_range" value="5000-15000" id="price3">
+                                <label for="price3">5,000 - 15,000 ₴</label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="radio" name="price_range" value="15000-50000" id="price4">
+                                <label for="price4">15,000 - 50,000 ₴</label>
+                            </div>
+                            <div class="filter-checkbox">
+                                <input type="radio" name="price_range" value="50000-" id="price5">
+                                <label for="price5">From 50,000 ₴</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Brand Filter (if brand field exists) -->
+                    {% if brands %}
+                    <div class="filter-section">
+                        <div class="filter-title">
+                            <i class="fas fa-crown"></i> Brands
+                        </div>
+                        {% for brand in brands %}
+                        <div class="filter-checkbox">
+                            <input type="checkbox" name="brands" value="{{ brand.id }}" id="brand{{ brand.id }}"
+                                   {% if brand.id|stringformat:'s' in request.GET.brands %}checked{% endif %}>
+                            <label for="brand{{ brand.id }}">{{ brand.name }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Availability Filter -->
+                    <div class="filter-section">
+                        <div class="filter-title">
+                            <i class="fas fa-check-circle"></i> Availability
+                        </div>
+                        <div class="filter-checkbox">
+                            <input type="checkbox" name="in_stock" value="1" id="in_stock"
+                                   {% if request.GET.in_stock %}checked{% endif %}>
+                            <label for="in_stock">In Stock Only</label>
+                        </div>
+                        <div class="filter-checkbox">
+                            <input type="checkbox" name="on_sale" value="1" id="on_sale"
+                                   {% if request.GET.on_sale %}checked{% endif %}>
+                            <label for="on_sale">On Sale</label>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="filter-actions">
+                        <button type="submit" class="btn btn-primary btn-filter">
+                            <i class="fas fa-filter"></i> Apply
+                        </button>
+                        <a href="{% url 'products:products' %}" class="btn btn-outline-secondary btn-filter">
+                            <i class="fas fa-times"></i> Reset
+                        </a>
+                    </div>
+                </form>
             </div>
             <!-- /.col-lg-3 -->
 
             <div class="col-lg-9">
-                {%for msg in messages%}
+                <!-- Messages -->
+                {% for msg in messages %}
                 <div id="alert-container" style="position: fixed; top: 2px; right: 10px; z-index: 1050; width: 300px;">
-                    {% for msg in messages %}
-                        <div class="alert {% if msg.tags == 'success' %}alert-success{% elif msg.tags == 'error' %}alert-warning{% endif %} alert-dismissible fade show" role="alert">
-                            {{ msg }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.style.display='none';">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    {% endfor %}
+                    <div class="alert {% if msg.tags == 'success' %}alert-success{% elif msg.tags == 'error' %}alert-warning{% endif %} alert-dismissible fade show" role="alert">
+                        {{ msg }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.style.display='none';">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 </div>
-                {%endfor%}
+                {% endfor %}
 
+                <!-- Active Filters -->
+                {% if request.GET %}
+                <div class="active-filters">
+                    <strong>Active Filters:</strong>
+                    {% if request.GET.category %}
+                        <span class="filter-tag" onclick="removeFilter('category')">
+                            Category: {{ request.GET.category }} ×
+                        </span>
+                    {% endif %}
+                    {% if request.GET.price_min %}
+                        <span class="filter-tag" onclick="removeFilter('price_min')">
+                            From {{ request.GET.price_min }}₴ ×
+                        </span>
+                    {% endif %}
+                    {% if request.GET.price_max %}
+                        <span class="filter-tag" onclick="removeFilter('price_max')">
+                            Up to {{ request.GET.price_max }}₴ ×
+                        </span>
+                    {% endif %}
+                    {% if request.GET.in_stock %}
+                        <span class="filter-tag" onclick="removeFilter('in_stock')">
+                            In Stock ×
+                        </span>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Sorting and Results Information -->
+                <div class="sort-controls">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="results-info">
+                                Products found: {{ object_list|length }}
+                                {% if is_paginated %}
+                                    (showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ paginator.count }})
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <label for="sort" class="me-2">Sort by:</label>
+                                <select name="sort" id="sort" class="form-select" style="width: auto;" onchange="applySort()">
+                                    <option value="">Default</option>
+                                    <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>
+                                        Price: Low to High
+                                    </option>
+                                    <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>
+                                        Price: High to Low
+                                    </option>
+                                    <option value="name_asc" {% if request.GET.sort == 'name_asc' %}selected{% endif %}>
+                                        Name: A-Z
+                                    </option>
+                                    <option value="name_desc" {% if request.GET.sort == 'name_desc' %}selected{% endif %}>
+                                        Name: Z-A
+                                    </option>
+                                    <option value="newest" {% if request.GET.sort == 'newest' %}selected{% endif %}>
+                                        Newest First
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carousel -->
                 <div id="carouselExampleIndicators" class="carousel slide my-4" data-bs-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
@@ -65,63 +339,136 @@
                     </a>
                 </div>
 
+                <!-- Products -->
                 <div class="row">
-                        {%for product in object_list%}
-                            <div class="col-lg-4 col-md-6 mb-4">
-                                <div class="card h-100">
-                                    <a href="{%url 'products:description_product' product.id%}">
-                                        <img class="card-img-top"
-                                            src="/media/{{product.image}}"
-                                            alt="">
+                    {% for product in object_list %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a href="{% url 'products:description_product' product.id %}">
+                                    <img class="card-img-top" src="/media/{{ product.image }}" alt="{{ product.name }}">
+                                </a>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="{% url 'products:description_product' product.id %}">
+                                            {{ product.name|slice:":20" }}...
+                                        </a>
+                                    </h4>
+                                    <h5><b>{{ product.price }} ₴</b></h5>
+                                    <p class="card-text">{{ product.short_description }}</p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <a href="{% url 'products:basket_add' product.id %}">
+                                        <button type="button" class="btn btn-outline-success">
+                                            <i class="fas fa-cart-plus"></i> Add to Cart
+                                        </button>
                                     </a>
-                                    <div class="card-body">
-                                        <h4 class="card-title">
-                                            <a href="{%url 'products:description_product' product.id%}">{{product.name|slice:":20"}}...</a>
-                                        </h4>
-                                        <h5 ><b>{{ product.price}} ₴</b></h5>
-                                        <p class="card-text">{{product.short_description}}</p>
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        <a href="{%url 'products:basket_add' product.id %}">
-                                            <button type="button" class="btn btn-outline-success">
-                                                Add in the basket
-                                            </button></a>
-                                    </div>
                                 </div>
                             </div>
-                        {%endfor%}
+                        </div>
+                    {% empty %}
+                        <div class="col-12">
+                            <div class="alert alert-info text-center">
+                                <h4>No Products Found</h4>
+                                <p>Try changing the filter parameters</p>
+                                <a href="{% url 'products:products' %}" class="btn btn-primary">
+                                    Reset Filters
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-                {%if is_paginated%}
-                    <nav aria-label="Page navigation example">
+
+                <!-- Pagination -->
+                {% if is_paginated %}
+                    <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
-                            <li class="page-item {% if not page_obj.has_previous %} disabled {%endif%}">
+                            <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
                                 <a class="page-link"
-                                href="{% if  page_obj.has_previous %} {% url 'products:page' page_obj.previous_page_number%} {%else%} # {%endif%}"
-                                tabindex="-1" aria-disabled="true">Prev</a>
+                                   href="{% if page_obj.has_previous %}?{{ request.GET.urlencode }}&page={{ page_obj.previous_page_number }}{% else %}#{% endif %}"
+                                   tabindex="-1" aria-disabled="true">
+                                    <i class="fas fa-chevron-left"></i> Prev
+                                </a>
                             </li>
 
-                            {% for page in paginator.page_range%}
-                                <li class="page-item">
-                                    <a class="page-link" href="{%url 'products:page' page%}">
-                                        {{page}}
-                                    </a>
-                                </li>
+                            {% for page in paginator.page_range %}
+                                {% if page == page_obj.number %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ page }}</span>
+                                    </li>
+                                {% elif page == 1 or page == paginator.num_pages or page >= page_obj.number|add:'-2' and page <= page_obj.number|add:'2' %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?{{ request.GET.urlencode }}&page={{ page }}">
+                                            {{ page }}
+                                        </a>
+                                    </li>
+                                {% elif page == 2 or page == paginator.num_pages|add:'-1' %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                {% endif %}
                             {% endfor %}
 
-                            <li class="page-item {% if not page_obj.has_next %} disabled {%endif%}">
+                            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
                                 <a class="page-link"
-                                href="{% if  page_obj.has_next %} {% url 'products:page' page_obj.next_page_number%} {%else%} # {%endif%}">Next</a>
+                                   href="{% if page_obj.has_next %}?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}{% else %}#{% endif %}">
+                                    Next <i class="fas fa-chevron-right"></i>
+                                </a>
                             </li>
                         </ul>
                     </nav>
-                {%endif%}
-
+                {% endif %}
             </div>
-
         </div>
-
     </div>
+
+    <script>
+        // Функция для применения сортировки
+        function applySort() {
+            const sortValue = document.getElementById('sort').value;
+            const url = new URL(window.location);
+
+            if (sortValue) {
+                url.searchParams.set('sort', sortValue);
+            } else {
+                url.searchParams.delete('sort');
+            }
+
+            window.location.href = url.toString();
+        }
+
+        // Функция для удаления конкретного фильтра
+        function removeFilter(filterName) {
+            const url = new URL(window.location);
+            url.searchParams.delete(filterName);
+            window.location.href = url.toString();
+        }
+
+        // Обработка диапазонов цен
+        document.querySelectorAll('input[name="price_range"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    const range = this.value.split('-');
+                    const minInput = document.querySelector('input[name="price_min"]');
+                    const maxInput = document.querySelector('input[name="price_max"]');
+
+                    minInput.value = range[0] || '';
+                    maxInput.value = range[1] || '';
+                }
+            });
+        });
+
+        // Автоматическая отправка формы при изменении чекбоксов
+        document.querySelectorAll('#filterForm input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                // Небольшая задержка для лучшего UX
+                setTimeout(() => {
+                    document.getElementById('filterForm').submit();
+                }, 100);
+            });
+        });
+    </script>
 {%endblock%}
+
 {%block footer%}
     <footer class="py-5 bg-dark">
         <div class="container">

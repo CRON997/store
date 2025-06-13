@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import HttpResponseRedirect, render
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
@@ -17,21 +18,89 @@ class IndexView(TitleMixin, TemplateView):
         return context
 
 
-class ProductsListView(TitleMixin, ListView):
+class ProductListView(ListView):
     model = Product
     template_name = 'products/products.html'
-    paginate_by = 6
-    title = 'ElectroHub - Catalog'
+    context_object_name = 'object_list'
+    paginate_by = 9
 
     def get_queryset(self):
-        queryset = super(ProductsListView, self).get_queryset()
-        category_id = self.kwargs.get('category_id')
-        return queryset.filter(category_id=category_id) if category_id else queryset
+        queryset = Product.objects.all()
 
-    def get_context_data(self, object_list=None, **kwargs):
-        context = super(ProductsListView, self).get_context_data()
+        # Фильтр по категории
+        category_id = self.request.GET.get('category')
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+
+        # Фильтр по цене
+        price_min = self.request.GET.get('price_min')
+        price_max = self.request.GET.get('price_max')
+        price_range = self.request.GET.get('price_range')
+
+        # Обработка предустановленных диапазонов
+        if price_range:
+            if '-' in price_range:
+                min_val, max_val = price_range.split('-')
+                if min_val:
+                    queryset = queryset.filter(price__gte=int(min_val))
+                if max_val:
+                    queryset = queryset.filter(price__lte=int(max_val))
+            else:  # для случая "50000-" (от 50000)
+                queryset = queryset.filter(price__gte=int(price_range.replace('-', '')))
+
+        # Индивидуальные значения цены
+        if price_min:
+            queryset = queryset.filter(price__gte=price_min)
+        if price_max:
+            queryset = queryset.filter(price__lte=price_max)
+
+        # Фильтр по брендам (если есть поле brand в модели)
+        brands = self.request.GET.getlist('brands')
+        if brands:
+            queryset = queryset.filter(brand_id__in=brands)
+
+        # Фильтр по наличию
+        if self.request.GET.get('in_stock'):
+            queryset = queryset.filter(quantity__gt=0)  # предполагаем поле quantity
+
+        # Фильтр по скидкам
+        if self.request.GET.get('on_sale'):
+            queryset = queryset.filter(discount__gt=0)  # предполагаем поле discount
+
+        # Поиск по названию
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(name__icontains=search) |
+                Q(short_description__icontains=search)
+            )
+
+        # Сортировка
+        sort = self.request.GET.get('sort')
+        if sort == 'price_asc':
+            queryset = queryset.order_by('price')
+        elif sort == 'price_desc':
+            queryset = queryset.order_by('-price')
+        elif sort == 'name_asc':
+            queryset = queryset.order_by('name')
+        elif sort == 'name_desc':
+            queryset = queryset.order_by('-name')
+        elif sort == 'newest':
+            queryset = queryset.order_by('-created_at')  # предполагаем поле created_at
+        else:
+            queryset = queryset.order_by('id')  # сортировка по умолчанию
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         context['categories'] = ProductCategory.objects.all()
+
+        # Добавляем бренды если есть
+        # context['brands'] = Brand.objects.all()
+
         return context
+
 
 
 @login_required
