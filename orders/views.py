@@ -64,7 +64,7 @@ class OrderCreateView(TitleMixin,CreateView):
 
         checkout_session = stripe.checkout.Session.create(
             line_items=line_items,
-            metadata={'order_id': str(self.object.id)},  # Обрати внимание: id должен быть строкой
+            metadata={'order_id': str(self.object.id)},
             mode='payment',
             success_url='{}{}'.format(settings.DOMAIN_NAME, reverse('orders:order_success')),
             cancel_url='{}{}'.format(settings.DOMAIN_NAME, reverse('orders:order_canceled')),

@@ -29,6 +29,7 @@ class Product(models.Model):
     characteristics = models.JSONField(default=dict, blank=True)
     stripe_product_price_id = models.CharField(max_length=128,null=True,blank=True)
 
+
     def __str__(self):
         return f"{self. name}|{self.category.name}"
 

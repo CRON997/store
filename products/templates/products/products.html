@@ -188,22 +188,6 @@
                         </div>
                     </div>
 
-                    <!-- Brand Filter (if brand field exists) -->
-                    {% if brands %}
-                    <div class="filter-section">
-                        <div class="filter-title">
-                            <i class="fas fa-crown"></i> Brands
-                        </div>
-                        {% for brand in brands %}
-                        <div class="filter-checkbox">
-                            <input type="checkbox" name="brands" value="{{ brand.id }}" id="brand{{ brand.id }}"
-                                   {% if brand.id|stringformat:'s' in request.GET.brands %}checked{% endif %}>
-                            <label for="brand{{ brand.id }}">{{ brand.name }}</label>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-
                     <!-- Availability Filter -->
                     <div class="filter-section">
                         <div class="filter-title">
@@ -357,11 +341,15 @@
                                     <p class="card-text">{{ product.short_description }}</p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="{% url 'products:basket_add' product.id %}">
-                                        <button type="button" class="btn btn-outline-success">
-                                            <i class="fas fa-cart-plus"></i> Add to Cart
-                                        </button>
-                                    </a>
+                                    {%if product.quantity%}
+                                        <a href="{% url 'products:basket_add' product.id %}">
+                                            <button type="button" class="btn btn-outline-success">
+                                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                            </button>
+                                        </a>
+                                    {%else%}
+                                        <p>Out of stock</p>
+                                    {%endif%}
                                 </div>
                             </div>
                         </div>
