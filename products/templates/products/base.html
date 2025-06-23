@@ -59,7 +59,7 @@
                             </li>
                             <li><a class="dropdown-item" href="{%url 'orders:orders_list'%}">Orders</a></li>
                             {%if user.is_superuser %}
-                                <li><a class="dropdown-item" href="admin">Admin-panel</a></li>
+                                <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin-panel</a></li>
                             {%endif%}
                             <li>
                                 <hr class="dropdown-divider">

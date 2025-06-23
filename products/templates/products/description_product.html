@@ -53,10 +53,17 @@
                 <div class="action-buttons mb-4">
                     <div class="row g-2">
                         <div class="col-md-8">
-                            <a href="{% url 'products:basket_add' product.id %}" class="btn btn-success btn-lg w-100 shadow-sm">
-                                <i class="fas fa-shopping-cart me-2"></i>
-                                Add to cart
-                            </a>
+                            {%if product.quantity%}
+                                <a href="{% url 'products:basket_add' product.id %}" class="btn btn-success btn-lg w-100 shadow-sm">
+                                    <i class="fas fa-shopping-cart me-2"></i>
+                                    Add to cart
+                                </a>
+                            {%else%}
+                                <button class="btn btn-secondary btn-lg w-100 shadow-sm" disabled>
+                                    <i class="fas fa-times-circle me-2"></i>
+                                    Out of Stock
+                                </button>
+                            {%endif%}
                         </div>
                         <div class="col-md-4">
                             <button class="btn btn-outline-secondary btn-lg w-100">

@@ -23,9 +23,27 @@ class Order(models.Model):
         return f"Order #{self.id}.{self.first_name} - {self.last_name}"
 
     def update_after_payment(self):
-        baskets = Basket.objects.filter(user = self.initiator)
+        baskets = Basket.objects.filter(user=self.initiator)
+
+        # Обновляем количество товаров на складе
+        for basket in baskets:
+            product = basket.product
+            if product.quantity >= basket.quantity:
+                product.quantity -= basket.quantity
+                product.save()
+            else:
+                # Обработка случая, когда товара недостаточно на складе
+                raise ValueError(f"Недостаточно товара {product.name} на складе. "
+                                 f"Доступно: {product.quantity}, запрошено: {basket.quantity}")
+
+        # Сохраняем историю покупок
         self.status = self.PAID
-        self.basket_history = {'purchased_items':[basket.de_json() for basket in baskets],'total_sum': float(sum(b.sum() for b in baskets))}
+        self.basket_history = {
+            'purchased_items': [basket.de_json() for basket in baskets],
+            'total_sum': float(sum(b.sum() for b in baskets))
+        }
+
+        # Удаляем корзину после успешной покупки
         baskets.delete()
         self.save()
 

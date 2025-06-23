@@ -198,11 +198,6 @@
                                    {% if request.GET.in_stock %}checked{% endif %}>
                             <label for="in_stock">In Stock Only</label>
                         </div>
-                        <div class="filter-checkbox">
-                            <input type="checkbox" name="on_sale" value="1" id="on_sale"
-                                   {% if request.GET.on_sale %}checked{% endif %}>
-                            <label for="on_sale">On Sale</label>
-                        </div>
                     </div>
 
                     <!-- Action Buttons -->
@@ -286,9 +281,9 @@
                                     <option value="name_desc" {% if request.GET.sort == 'name_desc' %}selected{% endif %}>
                                         Name: Z-A
                                     </option>
-                                    <option value="newest" {% if request.GET.sort == 'newest' %}selected{% endif %}>
-                                        Newest First
-                                    </option>
+<!--                                    <option value="newest" {% if request.GET.sort == 'newest' %}selected{% endif %}>-->
+<!--                                        Newest First-->
+<!--                                    </option>-->
                                 </select>
                             </div>
                         </div>
@@ -410,7 +405,6 @@
     </div>
 
     <script>
-        // Функция для применения сортировки
         function applySort() {
             const sortValue = document.getElementById('sort').value;
             const url = new URL(window.location);
@@ -424,14 +418,12 @@
             window.location.href = url.toString();
         }
 
-        // Функция для удаления конкретного фильтра
         function removeFilter(filterName) {
             const url = new URL(window.location);
             url.searchParams.delete(filterName);
             window.location.href = url.toString();
         }
 
-        // Обработка диапазонов цен
         document.querySelectorAll('input[name="price_range"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 if (this.checked) {
